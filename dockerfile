@@ -10,13 +10,14 @@ WORKDIR /app
 RUN git clone https://github.com/DevIA05/fertilite.git .
 
 # Installer les dépendances
+COPY requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
 
-# # Monter le volume pour le répertoire de travail
+# Monter le volume pour le répertoire de travail
 VOLUME /app
 
-# # Exposer le port 8501 (port par défaut de Streamlit)
+# Exposer le port 8501 (port par défaut de Streamlit)
 EXPOSE 8501
 
-# # Définir la commande pour exécuter l'application Streamlit
+# Définir la commande pour exécuter l'application Streamlit
 CMD streamlit run /app/app/main.py
