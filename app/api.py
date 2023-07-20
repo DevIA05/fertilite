@@ -17,6 +17,7 @@ class API:
         }
         # Effectuez la prédiction en envoyant une requête POST avec les en-têtes et les données de l'image
         response = requests.post(self.url, headers=headers, data=image_data)
+        
         return response.json()
     
     def extractProb(self, resp_json):
@@ -25,3 +26,5 @@ class API:
         df = pd.DataFrame(predictions, columns=['probability', 'tagName'])
         df_sorted = df.sort_values(by='probability', ascending=False)
         return df_sorted
+    
+    

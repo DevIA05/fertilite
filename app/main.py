@@ -20,6 +20,7 @@ if uploaded_file is not None:
         with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
             image.save(temp_image.name)
         api = API()
-        pred = api.getPredFromImg(temp_image.name)
-        df = api.extractProb(pred)
+        resultat = api.getPredFromImg(temp_image.name)
+        print(resultat)
+        df = api.extractProb(resultat)
         st.dataframe(df.set_index(df.columns[0]))
