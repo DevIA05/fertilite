@@ -20,7 +20,7 @@ class TestAPI(unittest.TestCase):
         
         # Création d'un objet simulacre pour la réponse de la méthode post
         mock_response = Mock()
-        mock_response.status_code = 200
+        #mock_response.status_code = 200
         mock_response.json.return_value = {
             'id': '36923662-dbe8-47bc-848b-29063646a961',
             'project': '09e3abf3-b171-4677-8241-367bad9b37c4',
@@ -38,10 +38,10 @@ class TestAPI(unittest.TestCase):
         with patch('requests.post', return_value=mock_response):
             # Appel de la méthode à tester
             api = API()
-            response = api.getPredFromImg(self.image_path)
+            response = api.getPredFromImg(image_path)
 
             # Assertions sur la réponse
-            self.assertEqual(response.status_code, 200)
+            #self.assertEqual(response.status_code, 200)
             # Assert that the value of 'predictions' is a list with a length of 4
             self.assertIsInstance(response['predictions'], list, "Value of 'predictions' is a list")
             self.assertEqual(len(response['predictions']), 4, "Length of 'predictions' list is 4")

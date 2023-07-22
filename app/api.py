@@ -27,5 +27,4 @@ class API:
         df = pd.DataFrame(predictions, columns=['probability', 'tagName'])
         df_sorted = df.sort_values(by='probability', ascending=False)
         return df_sorted
-    
-    
+
