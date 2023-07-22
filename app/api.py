@@ -9,7 +9,8 @@ class API:
     
     def getPredFromImg(self, image_path):
         # Chargez l'image à prédire
-        image_data = open(image_path, 'rb').read()
+        with open(image_path, 'rb') as file:
+            image_data = file.read()
         # Configurez les en-têtes de la requête
         headers = {
             'Prediction-Key': self.prediction_key,
