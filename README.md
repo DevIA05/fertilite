@@ -12,3 +12,14 @@ identifiant sur le container azure
 docker push fertilite0container.azurecr.io/fertilite-app:latest
 docker login fertilite-img
 ```
+
+`python -m unittest test_api.py` 
+
+
+```py 
+image_data = open(image_path, 'rb').read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+
+with open(image_path, 'rb') as file:
+    image_data = file.read()
+```

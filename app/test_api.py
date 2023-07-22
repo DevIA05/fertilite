@@ -3,15 +3,14 @@ from unittest.mock import Mock, patch
 from api import API
 
 class TestAPI(unittest.TestCase):
-    
-    image_path = r'C:\Users\IKmai\Documents\Workspace\afpar-simplon\fertilite\data\Human Sperm Head Morphology dataset (HuSHeM)\02_Tapered\image_004.BMP'
-    
+        
     # tests go here
     def test_api_call(self):
         
+        image_path = r'C:\Users\IKmai\Documents\Workspace\afpar-simplon\fertilite\data\Human Sperm Head Morphology dataset (HuSHeM)\02_Tapered\image_004.BMP'
+        
         # Création d'un objet simulacre pour la réponse de la méthode post
         mock_response = Mock()
-        mock_response.status_code = 200
         mock_response.json.return_value = {
             'id': '36923662-dbe8-47bc-848b-29063646a961',
             'project': '09e3abf3-b171-4677-8241-367bad9b37c4',
@@ -25,16 +24,15 @@ class TestAPI(unittest.TestCase):
             ]
         }
 
+        api = API()
         # Utilisation du décorateur patch pour remplacer temporairement la méthode post avec l'objet simulacre
         with patch('requests.post', return_value=mock_response):
             # Appel de la méthode à tester
-            response = API().getPredFromImg(self.image_path)
-
-            # Assertions sur la réponse
-            self.assertEqual(response.status_code, 200)
-            # Assert that the value of 'predictions' is a list with a length of 4
-            self.assertIsInstance(response['predictions'], list, "Value of 'predictions' is a list")
-            self.assertEqual(len(response['predictions']), 4, "Length of 'predictions' list is 4")
+            response = api.getPredFromImg(image_path)
+        
+        # Assert that the value of 'predictions' is a list with a length of 4
+        self.assertIsInstance(response['predictions'], list, "Value of 'predictions' is a list")
+        self.assertEqual(len(response['predictions']), 4, "Length of 'predictions' list is 4")
 
  
 if __name__ == "__main__":
