@@ -1,26 +1,27 @@
 import streamlit as st
-import tempfile
-import os
-from PIL import Image
-from api import API
+import os, sys
 
-st.title("Prédiction Fertilité")
-st.subheader("Prédiction selon une image")
-# Afficher un formulaire de téléversement de fichiers
-uploaded_file = st.file_uploader("Choisissez une image", type=["jpg", "jpeg", "png", 'BMP'])
-if uploaded_file is not None:
-    # Afficher l'image téléversée
-    st.image(uploaded_file, caption="Image téléversée", use_column_width=True)
-    # Afficher un message de confirmation
-    st.success("L'image a été téléversée avec succès!")
-    image = Image.open(uploaded_file)
-    # Bouton pour effectuer la prédiction
-    if st.button("Prédire"):
-        # Enregistrer l'image redimensionnée temporairement sur le disque
-        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
-            image.save(temp_image.name)
-        api = API()
-        resultat = api.getPredFromImg(temp_image.name)
-        print(resultat)
-        df = api.extractProb(resultat)
-        st.dataframe(df.set_index(df.columns[0]))
+from components.predWithImg import tab_img
+
+
+
+def main():
+    # Titre de la page
+    st.title("Human Sperm Head Morphology")
+
+    # Liste des onglets disponibles
+    onglets = {
+        "À partir d'une image": tab_img,
+        "À partir de valeur": "",
+        # "A Propos": onglet_apropos
+    }
+
+    # Affichage de la liste des onglets dans la barre latérale (sidebar)
+    onglet_selectionne = st.sidebar.radio("Navigation", list(onglets.keys()))
+
+    # Exécution de la fonction associée à l'onglet sélectionné
+    onglets[onglet_selectionne]()
+    
+
+if __name__ == "__main__":
+    main()
