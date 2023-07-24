@@ -2,7 +2,7 @@ import streamlit as st
 import os, sys
 
 from components.predWithImg import tab_img
-
+from components.predWithValues import tab_val
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
     # Liste des onglets disponibles
     onglets = {
         "À partir d'une image": tab_img,
-        "À partir de valeur": "",
+        "À partir de valeur": tab_val,
         # "A Propos": onglet_apropos
     }
 
