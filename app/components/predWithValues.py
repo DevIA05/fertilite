@@ -13,7 +13,6 @@ def tab_val():
 
     # Affichage du formulaire
     st.subheader("Prédiction à partir de valeurs")
-    st.write("Choisissez les valeurs pour chaque champ :")
 
     with st.form(key='my_form'):
         left_column, right_column = st.columns(2)
@@ -33,7 +32,10 @@ def tab_val():
             age = st.number_input("Age", min_value=0, max_value=120, value=30)
             hours_sitting = st.number_input("Nombre d'heures assis par jour", min_value=0, max_value=24, value=8)
 
-        submitted = st.form_submit_button('Submit')
+        st.markdown('<br>', unsafe_allow_html=True)
+        _, center_column, _ = st.columns([3, 1, 3])
+        with center_column:
+            submitted = st.form_submit_button('Submit')
         if submitted:
         # Code à exécuter lorsque le bouton est appuyé
             st.write("Envoyer")
