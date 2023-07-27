@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+from components.API import API_values   
 
 def tab_val():    
     # Valeurs possibles pour les champs catégoriels
@@ -9,7 +11,7 @@ def tab_val():
     fevers = ["more than 3 months ago", "less than 3 months ago", "no"]
     alcohol_consumption = ["once a week", "several times a week", "hardly ever or never", "every day"]
     smoking_habit = ["never", "occasional", "daily"]
-    diagnosis = ["Normal", "Altered"]
+    #diagnosis = ["Normal", "Altered"]
 
     # Affichage du formulaire
     st.subheader("Prédiction à partir de valeurs")
@@ -28,7 +30,7 @@ def tab_val():
         with right_column:
             selected_alcohol_consumption = st.selectbox("Consommation d'alcool", alcohol_consumption)
             selected_smoking_habit = st.selectbox("Type de fumeur", smoking_habit)
-            selected_diagnosis = st.selectbox("Diagnostic", diagnosis)
+            #selected_diagnosis = st.selectbox("Diagnostic", diagnosis)
             age = st.number_input("Age", min_value=0, max_value=120, value=30)
             hours_sitting = st.number_input("Nombre d'heures assis par jour", min_value=0, max_value=24, value=8)
 
@@ -38,4 +40,20 @@ def tab_val():
             submitted = st.form_submit_button('Submit')
         if submitted:
         # Code à exécuter lorsque le bouton est appuyé
-            st.write("Envoyer")
+            data = {
+                "Season": [selected_season],
+                "Childish diseases": [selected_childish_diseases],
+                "Accident or serious trauma": [selected_accident_or_trauma],
+                "Surgical intervention": [selected_surgical_intervention],
+                "High fevers in the last year": [selected_fevers],
+                "Frequency of alcohol consumption": [selected_alcohol_consumption],
+                "Smoking habit": [selected_smoking_habit],
+                "Age": [age],
+                "Number of hours spent sitting per day": [hours_sitting]
+            }
+            data = pd.DataFrame(data)
+            fromApiVal = API_values()
+            response = fromApiVal.getPred(data)
+            st.write(response)
+            print("-----------------------------------------------------------")
+            

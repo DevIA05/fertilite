@@ -2,7 +2,7 @@ from PIL import Image
 import streamlit as st
 import tempfile
 
-from API.api import API  
+from components.API import API_img  
 
 
 def tab_img():
@@ -21,8 +21,8 @@ def tab_img():
             # Enregistrer l'image redimensionnée temporairement sur le disque
             with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
                 image.save(temp_image.name)
-            api = API()
-            resultat = api.getPredFromImg(temp_image.name)
+            fromApiImg = API_img()
+            resultat = fromApiImg.getPred(temp_image.name)
             print(resultat)
-            df = api.extractProb(resultat)
+            df = fromApiImg.extractProb(resultat)
             st.dataframe(df.set_index(df.columns[0]))
