@@ -7,7 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 app_dir = os.path.join(current_dir, '..', 'app')  # Assuming 'app' is one level up from 'test'
 sys.path.append(app_dir)
 
-from api import API
+from components.API import API_img
 
 print(os.getcwd())
 
@@ -37,8 +37,8 @@ class TestAPI(unittest.TestCase):
         # Utilisation du décorateur patch pour remplacer temporairement la méthode post avec l'objet simulacre
         with patch('requests.post', return_value=mock_response):
             # Appel de la méthode à tester
-            api = API()
-            response = api.getPredFromImg(image_path)
+            api = API_img
+            response = api.getPred(image_path)
 
             # Assertions sur la réponse
             #self.assertEqual(response.status_code, 200)
