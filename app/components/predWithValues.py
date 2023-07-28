@@ -38,22 +38,23 @@ def tab_val():
         _, center_column, _ = st.columns([3, 1, 3])
         with center_column:
             submitted = st.form_submit_button('Submit')
-        if submitted:
-        # Code à exécuter lorsque le bouton est appuyé
-            data = {
-                "Season": [selected_season],
-                "Childish diseases": [selected_childish_diseases],
-                "Accident or serious trauma": [selected_accident_or_trauma],
-                "Surgical intervention": [selected_surgical_intervention],
-                "High fevers in the last year": [selected_fevers],
-                "Frequency of alcohol consumption": [selected_alcohol_consumption],
-                "Smoking habit": [selected_smoking_habit],
-                "Age": [age],
-                "Number of hours spent sitting per day": [hours_sitting]
-            }
-            data = pd.DataFrame(data)
-            fromApiVal = API_values()
-            response = fromApiVal.getPred(data)
-            st.write(response)
-            print("-----------------------------------------------------------")
+            
+    if submitted:
+    # Code à exécuter lorsque le bouton est appuyé
+        data = {
+            "Season": [selected_season],
+            "Childish diseases": [selected_childish_diseases],
+            "Accident or serious trauma": [selected_accident_or_trauma],
+            "Surgical intervention": [selected_surgical_intervention],
+            "High fevers in the last year": [selected_fevers],
+            "Frequency of alcohol consumption": [selected_alcohol_consumption],
+            "Smoking habit": [selected_smoking_habit],
+            "Age": [age],
+            "Number of hours spent sitting per day": [hours_sitting]
+        }
+        data = pd.DataFrame(data)
+        fromApiVal = API_values()
+        response = fromApiVal.getPred(data)
+        #print(type(response))
+        st.write(response)
             
