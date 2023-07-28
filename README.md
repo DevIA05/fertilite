@@ -13,7 +13,8 @@ docker push fertilite0container.azurecr.io/fertilite-app:latest
 docker login fertilite-img
 ```
 
-`python -m unittest test_api.py` 
+`python -m unittest test_api`  
+`python -m unittest test.test_api.TestAPIImg`
 
 
 ```py 
