@@ -55,7 +55,6 @@ class API_values:
         # depending on the format your endpoint expects.
         # More information can be found here:
         # https://docs.microsoft.com/azure/machine-learning/how-to-deploy-advanced-entry-script
-        data = pd.DataFrame(data)
         data_processed = json.loads(self.transform(data).to_json(orient='records'))
         #print(data_processed)
         content =  {
@@ -87,6 +86,8 @@ class API_values:
         return result
 
     def transform(self,data):
+        data = pd.DataFrame(data)
+        
         data['Childish diseases'] = data['Childish diseases'].map({'yes': 1, 'no': 0})
         data['Accident or serious trauma'] = data['Accident or serious trauma'].map({'yes': 1, 'no': 0})
         data['Surgical intervention'] = data['Surgical intervention'].map({'yes': 1, 'no': 0})
@@ -113,6 +114,7 @@ class API_values:
             'daily': 1,
             'never': 2,
         })
+        
         return data
     
     def de_transform(self,result):
