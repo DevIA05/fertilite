@@ -55,8 +55,9 @@ class API_values:
         # depending on the format your endpoint expects.
         # More information can be found here:
         # https://docs.microsoft.com/azure/machine-learning/how-to-deploy-advanced-entry-script
+        data = pd.DataFrame(data)
         data_processed = json.loads(self.transform(data).to_json(orient='records'))
-        print(data_processed)
+        #print(data_processed)
         content =  {
           "Inputs": {
             "data": data_processed 
