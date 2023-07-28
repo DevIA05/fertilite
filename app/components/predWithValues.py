@@ -52,7 +52,7 @@ def tab_val():
             "Age": [age],
             "Number of hours spent sitting per day": [hours_sitting]
         }
-        data = pd.DataFrame(data)
+        
         fromApiVal = API_values()
         response = fromApiVal.getPred(data)
         #print(type(response))
