@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 import os, sys
+import pandas as pd
 
 # Add the 'app' directory to the Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -8,11 +9,11 @@ app_dir = os.path.join(current_dir, '..', 'app')  # Assuming 'app' is one level 
 sys.path.append(app_dir)
 
 from components.API import API_img
+from components.API import API_values
 
 print(os.getcwd())
 
-class TestAPI(unittest.TestCase):
-        
+class TestAPIImg(unittest.TestCase):
     # tests go here
     def test_api_call(self):
         
@@ -37,16 +38,37 @@ class TestAPI(unittest.TestCase):
         # Utilisation du décorateur patch pour remplacer temporairement la méthode post avec l'objet simulacre
         with patch('requests.post', return_value=mock_response):
             # Appel de la méthode à tester
-            api = API_img
+            api = API_img()
             response = api.getPred(image_path)
-
             # Assertions sur la réponse
             #self.assertEqual(response.status_code, 200)
             # Assert that the value of 'predictions' is a list with a length of 4
             self.assertIsInstance(response['predictions'], list, "Value of 'predictions' is a list")
             self.assertEqual(len(response['predictions']), 4, "Length of 'predictions' list is 4")
 
- 
+class TestAPIVal(unittest.TestCase):
+    def test_api_call(self):
+        
+        data = {'Season': ['spring'], 'Childish diseases': ['yes'], 
+                'Accident or serious trauma': ['yes'], 
+                'Surgical intervention': ['yes'], 
+                'High fevers in the last year': ['more than 3 months ago'], 
+                'Frequency of alcohol consumption': ['once a week'], 
+                'Smoking habit': ['never'], 'Age': [30], 
+                'Number of hours spent sitting per day': [8]}
+                         
+        mock_response = Mock()
+        mock_response.return_value = 'Normal'
+         
+        with patch('requests.post', return_value=mock_response):
+            fromApiVal = API_values()
+            response = fromApiVal.getPred(data)
+        print(response)
+        self.assertIsInstance(response, str)
+        self.assertEqual(response, 'Normal')
+
+            
+             
 if __name__ == "__main__":
     unittest.main()   
     
