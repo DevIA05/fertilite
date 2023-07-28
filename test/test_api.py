@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock, patch
 import os, sys
 import pandas as pd
+from pandas.testing import assert_frame_equal
 
 # Add the 'app' directory to the Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,6 +48,37 @@ class TestAPIImg(unittest.TestCase):
             self.assertEqual(len(response['predictions']), 4, "Length of 'predictions' list is 4")
 
 class TestAPIVal(unittest.TestCase):
+    
+    def test_transform_data(self):
+        data = {'Season': ['spring'], 'Childish diseases': ['yes'], 
+                'Accident or serious trauma': ['yes'], 
+                'Surgical intervention': ['yes'], 
+                'High fevers in the last year': ['more than 3 months ago'], 
+                'Frequency of alcohol consumption': ['once a week'], 
+                'Smoking habit': ['never'], 'Age': [30], 
+                'Number of hours spent sitting per day': [8]}
+        
+        data_output = pd.DataFrame({
+            'Season': [0],
+            'Childish diseases': [1],
+            'Accident or serious trauma': [1],
+            'Surgical intervention': [1],
+            'High fevers in the last year': [2],
+            'Frequency of alcohol consumption': [1],
+            'Smoking habit': [2],
+            'Age': [30],
+            'Number of hours spent sitting per day': [8]
+        })
+        
+        mock_response = Mock()
+        mock_response.return_value = data_output
+        
+        with patch('requests.post', return_value=mock_response):
+            fromApiVal = API_values()
+            response = fromApiVal.transform(data)
+        
+        assert_frame_equal(response, data_output)
+        
     def test_api_call(self):
         
         data = {'Season': ['spring'], 'Childish diseases': ['yes'], 
@@ -63,7 +95,7 @@ class TestAPIVal(unittest.TestCase):
         with patch('requests.post', return_value=mock_response):
             fromApiVal = API_values()
             response = fromApiVal.getPred(data)
-        print(response)
+            
         self.assertIsInstance(response, str)
         self.assertEqual(response, 'Normal')
 
