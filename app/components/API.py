@@ -7,10 +7,11 @@ import os
 import ssl
 
 class API_img:
-    # Spécifiez les informations d'URL, de clé de prédiction et de contenu
-    url = 'https://fertiliteclassification-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/09e3abf3-b171-4677-8241-367bad9b37c4/classify/iterations/Iteration1/image'
-    prediction_key = 'a3276f0de358412dbf285df671ca86a8'
-    content_type = 'application/octet-stream'
+    
+    def __init__(self):
+        self.__url = os.environ['API_URL_IMG']
+        self.__prediction_key = os.environ['API_KEY_IMG']
+        self.content_type = 'application/octet-stream'
     
     def getPred(self, image_path):
         # Chargez l'image à prédire
@@ -18,11 +19,11 @@ class API_img:
             image_data = file.read()
         # Configurez les en-têtes de la requête
         headers = {
-            'Prediction-Key': self.prediction_key,
+            'Prediction-Key': self.__prediction_key,
             'Content-Type': self.content_type
         }
         # Effectuez la prédiction en envoyant une requête POST avec les en-têtes et les données de l'image
-        response = requests.post(self.url, headers=headers, data=image_data)
+        response = requests.post(self.__url, headers=headers, data=image_data)
         
         return response.json()
     
@@ -38,10 +39,9 @@ class API_values:
     
     def __init__(self):
         self.allowSelfSignedHttps(True) 
-    
-    url = 'https://workspace-fertilite-jxvfk.southafricanorth.inference.ml.azure.com/score'
-    api_key = "wGiKQhKXs5YazqwkcpkBtpoGfX3JMOZE"
-    azureml_model_deployment = 'automl4f78aa81750-1'
+        self.__url = os.environ['API_URL_VAL']
+        self.__api_key = os.environ['API_KEY_VAL']
+        self.__azureml_model_deployment = os.environ['API_MODEL_VAL']
     
     def allowSelfSignedHttps(self, allowed):
         # bypass the server certificate verification on client side
@@ -68,9 +68,9 @@ class API_values:
 
         body = str.encode(json.dumps(content))
         headers = {'Content-Type':'application/json', 
-                   'Authorization': ('Bearer ' + self.api_key), 
-                   'azureml-model-deployment': self.azureml_model_deployment }
-        req = urllib.request.Request(self.url, body, headers)
+                   'Authorization': ('Bearer ' + self.__api_key), 
+                   'azureml-model-deployment': self.__azureml_model_deployment }
+        req = urllib.request.Request(self.__url, body, headers)
         result = None
         try:
             response = urllib.request.urlopen(req)

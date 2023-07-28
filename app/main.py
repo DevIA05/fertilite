@@ -1,9 +1,11 @@
 import streamlit as st
 import os, sys
+from dotenv import load_dotenv
 
 from components.predWithImg import tab_img
 from components.predWithValues import tab_val
 
+load_dotenv()
 
 def main():
     # Titre de la page
