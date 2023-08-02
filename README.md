@@ -24,3 +24,7 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
 with open(image_path, 'rb') as file:
     image_data = file.read()
 ```
+
+
+# Lancer un conteneur en déplaçant le contenu du projet
+`docker run -d -p 8501:8501 -v .:/app fertilite0container.azurecr.io/fertilite-app`  
