@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from components.predWithImg import tab_img
 from components.predWithValues import tab_val
+from components.charts import tab_charts
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ def main():
     onglets = {
         "À partir d'une image": tab_img,
         "À partir de valeur": tab_val,
-        # "A Propos": onglet_apropos
+        "Graphique": tab_charts
     }
 
     # Affichage de la liste des onglets dans la barre latérale (sidebar)
