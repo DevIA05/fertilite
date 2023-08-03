@@ -1,30 +1,44 @@
 # fertilite
 
-`docker build -t fertilite-app .`  
-`docker run -p 8501:8501 -v /path/to/your/workdir:/app my-streamlit-app`  
-`pipreqs --print app.py > requirements.txt`  
+## Déployer en local
 
-`docker run --name test1 -p 8501:8501 fertilite0container.azurecr.io/fertilite-app:latest`
-`docker build -t fertilite0container.azurecr.io/fertilite-app:latest .`
-
-```sh
-identifiant sur le container azure
-docker push fertilite0container.azurecr.io/fertilite-app:latest
-docker login fertilite-img
+### Créer les images
+```
+docker build -t fertilite0container.azurecr.io/fertilite-app -f dockerfile .
+docker build -t mysql0container.azurecr.io/database-fertilite -f dockerfile_mysql .
 ```
 
-`python -m unittest test_api`  
-`python -m unittest test.test_api.TestAPIImg`
-
-
-```py 
-image_data = open(image_path, 'rb').read()
-ResourceWarning: Enable tracemalloc to get the object allocation traceback
-
-with open(image_path, 'rb') as file:
-    image_data = file.read()
+### Créer les conteneurs
+```
+docker run --name appfertilite -p 8501:8501 fertilite0container.azurecr.io/fertilite-app
+docker run --name dbfertilite -d mysql0container.azurecr.io/database-fertilite 
 ```
 
+### Transférer le code dans le conteneur
+```
+docker run -p 8501:8501 -v /app:/app --name appfertilite
+```
 
-# Lancer un conteneur en déplaçant le contenu du projet
-`docker run -d -p 8501:8501 -v .:/app fertilite0container.azurecr.io/fertilite-app`  
+## Déployer les images sur les conteneurs de registre Azure
+
+### Application
+```
+docker build -t fertilite0container.azurecr.io/fertilite-app -f dockerfile .
+docker login fertilite0container.azurecr.io
+docker push fertilite0container.azurecr.io/fertilite-app
+```
+
+### Database
+```
+docker build -t mysql0container.azurecr.io/database-fertilite -f dockerfile_mysql .
+docker login mysql0container.azurecr.io
+docker push mysql0container.azurecr.io/database-fertilite
+```
+
+## Effectuer des test 
+`python -m unittest test.test_api.TestAPIImg`  
+`python -m unittest test.test_api.TestAPIVal`
+
+## Package utilisés
+Inscrit dans le fichier *requirements.txt* uniquement les packages utilisés dans le fichier séléctionné.  
+`pipreqs --print app.py > requirements.txt`
