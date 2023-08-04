@@ -1,0 +1,8 @@
+FROM mysql:latest
+ENV MYSQL_ROOT_PASSWORD password
+#COPY database/setup.sql /var/lib/mysql-files/setup.sql
+COPY database/setup.sql /docker-entrypoint-initdb.d/setup.sql
+COPY data/fertility.csv /var/lib/mysql-files/fertility.csv
+#RUN mysql -u root -ppassword < /var/lib/mysql-files/setup.sql
+
+EXPOSE 3306

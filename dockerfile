@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y git
 WORKDIR /app
 
 # Cloner le dépôt Git dans le conteneur
-#RUN git clone -b main https://github.com/DevIA05/fertilite.git .
+#RUN git clone -b developpement https://github.com/DevIA05/fertilite.git .
 COPY app /app/app 
 
 # Installer les dépendances

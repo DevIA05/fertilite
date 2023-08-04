@@ -1,15 +1,30 @@
 import streamlit as st
+import os, sys
+from dotenv import load_dotenv
 
-st.title("Téléversement d'images")
-# Afficher un formulaire de téléversement de fichiers
-uploaded_file = st.file_uploader("Choisissez une image", type=["jpg", "jpeg", "png", 'BMP'])
-if uploaded_file is not None:
-    # Afficher l'image téléversée
-    st.image(uploaded_file, caption="Image téléversée", use_column_width=True)
-    # Traiter l'image téléversée (vous pouvez ajouter votre propre logique ici)
-    # Par exemple, vous pouvez utiliser une bibliothèque comme PIL pour manipuler l'image :
-    # from PIL import Image
-    # image = Image.open(uploaded_file)
-    # Faites quelque chose avec l'image...
-    # Afficher un message de confirmation
-    st.success("L'image a été téléversée avec succès!")
+from components.predWithImg import tab_img
+from components.predWithValues import tab_val
+from components.charts import tab_charts
+
+load_dotenv()
+
+def main():
+    # Titre de la page
+    st.title("Human Sperm Head Morphology")
+
+    # Liste des onglets disponibles
+    onglets = {
+        "À partir d'une image": tab_img,
+        "À partir de valeur": tab_val,
+        "Graphique": tab_charts
+    }
+
+    # Affichage de la liste des onglets dans la barre latérale (sidebar)
+    onglet_selectionne = st.sidebar.radio("Navigation", list(onglets.keys()))
+
+    # Exécution de la fonction associée à l'onglet sélectionné
+    onglets[onglet_selectionne]()
+    
+
+if __name__ == "__main__":
+    main()
