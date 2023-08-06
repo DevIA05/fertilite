@@ -15,8 +15,9 @@ CREATE TABLE fertilite (
 );
 
 LOAD DATA INFILE '/var/lib/mysql-files/fertility.csv'
-INTO TABLE fertilite
+INTO TABLE mydatabase.fertilite
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
